@@ -1,4 +1,4 @@
-# viser-boilerplate
+# narflow-boilerplate
 
 To install dependencies:
 
