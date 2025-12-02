@@ -1,0 +1,28 @@
+type User {
+    id: UUID!
+    username: String!
+    email: String!
+    password: String
+    created_at: String
+    updated_at: String
+    # Related entities
+    tasks(page: PaginationInput): TasksPage
+}
+
+input CreateUserInput {
+    id: UUID
+    username: String!
+    email: String!
+    password: String
+    created_at: String
+    updated_at: String
+}
+
+input UpdateUserInput {
+    id: UUID
+    username: String
+    email: String
+    password: String
+    created_at: String
+    updated_at: String
+}

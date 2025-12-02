@@ -1,0 +1,32 @@
+type Task {
+    id: UUID!
+    user_id: UUID!
+    parent_task_id: UUID
+    title: String!
+    description: String
+    created_at: String
+    updated_at: String
+    # Related entities
+    user: User
+    subtasks(page: PaginationInput): TasksPage
+}
+
+input CreateTaskInput {
+    id: UUID
+    user_id: UUID!
+    parent_task_id: UUID
+    title: String!
+    description: String
+    created_at: String
+    updated_at: String
+}
+
+input UpdateTaskInput {
+    id: UUID
+    user_id: UUID
+    parent_task_id: UUID
+    title: String
+    description: String
+    created_at: String
+    updated_at: String
+}

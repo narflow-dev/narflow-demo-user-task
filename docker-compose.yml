@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+    db:
+        image: postgres:15.4-alpine
+
+        # Use environment variables for credentials
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+
+        # Expose port for local development only
+        ports:
+            - '5432:5432'
+
+        # Persist database data
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+        # Health check with reasonable interval
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER}']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+        # Automatically restart if container fails
+        restart: unless-stopped
+
+        # Connect to custom network
+        networks:
+            - app-network
+
+    app:
+        build: .
+
+        # Expose port for local development
+        ports:
+            - '4000:4000'
+
+        # Use environment variables from .env
+        environment:
+            PORT: ${PORT}
+            DATABASE_URL: ${DATABASE_URL}
+
+        # Wait for DB to be healthy
+        depends_on:
+            db:
+                condition: service_healthy
+
+        # Mount app code and node modules
+        volumes:
+            - .:/app
+            - /app/node_modules
+
+        # Run migrations and start dev server
+        command: bun run start
+
+        # Connect to custom network
+        networks:
+            - app-network
+
+        # Automatically restart if container fails
+        restart: unless-stopped
+
+# Top-level networks
+networks:
+    app-network:
+        driver: bridge
+
+# Persist Postgres data across container restarts
+volumes:
+    postgres_data:

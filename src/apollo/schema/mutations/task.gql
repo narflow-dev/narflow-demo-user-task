@@ -1,0 +1,5 @@
+type Mutation {
+    create_task(input: CreateTaskInput!): Task!
+    update_task(id: UUID!, input: UpdateTaskInput!): Task!
+    delete_task(id: UUID!): Boolean!
+}

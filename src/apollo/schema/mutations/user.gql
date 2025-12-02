@@ -1,0 +1,5 @@
+type Mutation {
+    create_user(input: CreateUserInput!): User!
+    update_user(id: UUID!, input: UpdateUserInput!): User!
+    delete_user(id: UUID!): Boolean!
+}

@@ -1,0 +1,47 @@
+input PaginationInput {
+    first: Int
+    after: String
+    last: Int
+    before: String
+    order: [OrderInput!]
+}
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+    pageNumber: Int
+    pageCount: Int
+    totalCount: Int
+}
+
+input OrderInput {
+    field: String
+    direction: OrderDirection
+}
+
+enum OrderDirection {
+    ASC
+    DESC
+}
+
+type UsersPage {
+    edges: [UserEdge!]
+    pageInfo: PageInfo!
+}
+
+type UserEdge {
+    cursor: String!
+    node: User!
+}
+
+type TasksPage {
+    edges: [TaskEdge!]
+    pageInfo: PageInfo!
+}
+
+type TaskEdge {
+    cursor: String!
+    node: Task!
+}
